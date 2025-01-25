@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="/styles/admin_login.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-side"></div>
+      <div class="right-side">
+        <form id="loginForm" action="/login" method="post">
+          <h2>Admin Login</h2>
+          <div class="input-group">
+            <label for="email">Admin Id</label>
+            <input type="text" id="email" name="username" autofocus required />
+          </div>
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+          <button type="submit">Login</button>
+          <a href="/user/register" class="register-link"
+            >Don't have an account? Register here</a
+          >
+          <div id="message"></div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

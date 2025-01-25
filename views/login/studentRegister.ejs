@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Registration</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+            resize: vertical;
+            min-height: 100px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+        }
+
+        .signin {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        /* Styling for the Batch and Gender fields */
+
+
+        #batch,
+        #gender {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: border-color 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>REGISTRATION PAGE</h2>
+        <form id="registrationForm" action="/studentRegister" method="post" enctype="multipart/form-data">
+            <label for="fullname">Fullname:</label>
+            <input type="text" id="fullname" name="fullname" placeholder="Enter your fullname" autofocus required>
+
+            <label for="collegeid">College ID:</label>
+            <input type="text" id="collegeid" name="collegeid" placeholder="Enter your college id number" required>
+
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="batch">Batch:</label>
+            <select name="batch" id="batch">
+                <option value="null">Select</option>
+                <option value="2021-25">2021-25</option>
+                <option value="2022-26">2022-26</option>
+                <option value="2023-27">2023-27</option>
+                <option value="2024-27">2024-28</option>
+            </select>
+
+            <label for="pic">Pic:</label>
+            <input type="file" id="pic" name="pic">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email id" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <div class="signin">
+            <a href="/student_login">Signin</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function (e) {
+            // Validate Fullname
+            const fullname = document.getElementById('fullname').value;
+            if (!/^[a-zA-Z\s]+$/.test(fullname)) {
+                alert('Fullname should contain only letters and spaces.');
+                e.preventDefault();
+                return;
+            }
+
+            // Validate College ID
+            const collegeid = document.getElementById('collegeid').value;
+            if (!/^\d{2}[a-zA-Z]{2,}\d{3}$/.test(collegeid) || /^\d{2}[a-zA-Z]{2,}\d{4}$/.test(collegeid)) {
+                alert('College ID should follow the format: 22branch000.');
+                e.preventDefault();
+                return;
+            }
+            const pic = document.getElementById('pic').files.length;
+            if (pic === 0) {
+                alert('Please upload a picture.');
+                e.preventDefault();
+                return;
+            }
+
+            // Validate Gender
+            const gender = document.getElementById('gender').value;
+            if (gender === '') {
+                alert('Please select a gender.');
+                e.preventDefault();
+                return;
+            }
+            const bacth = document.getElementById('batch').value;
+            if (batch === '') {
+                alert('Please select a batch.');
+                e.preventDefault();
+                return;
+            }
+
+
+
+            // Validate Email
+            const email = document.getElementById('email').value;
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert('Please enter a valid email address.');
+                e.preventDefault();
+                return;
+            }
+
+            // Validate Password
+            const password = document.getElementById('password').value;
+            if (password.length < 8) {
+                alert('Password should be at least 8 characters long.');
+                e.preventDefault();
+                return;
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Upcoming Events</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="styles/index.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+  <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f6f9;
+        color: #333;
+    }
+
+    .title {
+        text-align: center;
+        margin: 30px 0;
+    }
+
+    .title h2 {
+        color: #007bff;
+        margin-bottom: 10px;
+    }
+
+    .title h5 {
+        color: #666;
+        max-width: 800px;
+        margin: 0 auto;
+        font-size: 16px;
+    }
+
+    .eventContainer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .event-card {
+        display: flex;
+        flex-direction: row;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        width: 100%;
+        transition: transform 0.3s ease;
+    }
+
+    .event-card:hover {
+        transform: scale(1.02);
+    }
+
+    .event-image img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .event-details {
+        padding: 20px;
+    }
+
+    .event-title {
+        color: #007bff;
+        margin-bottom: 10px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .event-description {
+        margin-bottom: 15px;
+        color: #666;
+    }
+
+    .event-details p {
+        margin: 5px 0;
+        color: #333;
+        font-size: 14px;
+    }
+
+    .event-details p strong {
+        color: #007bff;
+    }
+
+    footer {
+        background-color: #f4f6f9;
+        padding: 20px;
+        text-align: center;
+    }
+
+    footer a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    footer a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+</head>
+
+<body class="sb-nav-fixed">
+
+     <%- include('../partials/adminHeader.ejs') %>
+
+        <div id="layoutSidenav_content">
+            <main class="MAIN">
+                <div class="container-fluid px-4">
+                    <div class="title">
+                        <h2>Upcoming Events</h2>
+                        <h5>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, iusto amet enim est veritatis quod itaque tempore officia accusantium. Ipsum.</h5>
+                    </div>
+                    <div class="eventContainer">
+                        <% event.forEach(element => { %>
+                         <div class="event-card">
+                            <div class="event-image">
+                                <img src="/img/<%= element.event_pic %>" alt="Event Image">
+                            </div>
+                            <div class="event-details">
+                                <h4 class="event-title"><%= element.title %></h4>
+                                <p><strong>Date:</strong> <%= element.event_date %></p>
+                                <p><strong>Time:</strong> <%= element.event_time %></p>
+                                <p><strong>Venue:</strong> <%= element.venue %></p>
+                                <p><strong>Host:</strong> <%= element.host_name %></p>
+                                <p class="event-description"><%= element.event_description %></p>
+                            </div>
+                        </div>
+                        <% }) %>
+                        
+                        <!-- Repeat event-card divs for more events -->
+                    </div>
+                </div>
+            </main>
+
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Alumni Association System 2024</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="/js/scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="assets/demo/chart-area-demo.js"></script>
+    <script src="assets/demo/chart-bar-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+    <script src="/js/datatables-simple-demo.js"></script>
+</body>
+
+</html>
