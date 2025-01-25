@@ -49,7 +49,7 @@ const db = new pg.Client({
   user: "postgres",
   host: "localhost",
   database: "Alimini_Association_System",
-  password: "root",
+  password: "Sam@2004",
   port: 5432,
 });
 db.connect().then(() => {
@@ -648,3 +648,60 @@ passport.deserializeUser((user, cb) => {
 app.listen(port, () => {
   console.log("Server is running on port ", port);
 });
+
+
+app.get('/changePassword', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.render('login/changePassword', { name: req.user.name });
+  } else {
+    res.redirect('/');
+  }
+});
+
+
+
+
+// Middleware setup
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.post('/changePassword', async (req, res) => {
+  if (req.isAuthenticated()) {
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    try {
+      // Fetch the user from the database
+      const result = await db.query('SELECT password FROM alumni WHERE email = $1', [req.user.email]);
+      const user = result.rows[0];
+
+      console.log('User found:', user);
+      console.log('Fetched password:', user?.password);
+
+      // Check if the old password matches (plain text comparison)
+      if (currentPassword !== user.password) {
+        return res.status(400).send('Incorrect old password');
+      }
+
+      // Check if the new password matches the confirm password
+      if (newPassword !== confirmPassword) {
+        return res.status(400).send('New password and confirm password do not match');
+      }
+
+      // Update the password in the database
+      await db.query('UPDATE alumni SET password = $1 WHERE email = $2', [newPassword, req.user.email]);
+
+      req.logout(function (err) {
+        if (err) {
+          return next(err);
+        }
+        res.redirect("/");
+      });
+    } catch (error) {
+      console.error('Error changing password:', error);
+      res.status(500).send('Internal server error');
+    }
+  } else {
+    res.redirect('/');
+  }
+});
+
