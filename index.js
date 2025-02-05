@@ -675,7 +675,7 @@ app.post('/changePassword', async (req, res) => {
       // Check if the user exists in 'alumni' or 'student' table
       const result1 = await db.query('SELECT email FROM alumni WHERE email = $1', [req.user.email]);
       const result2 = await db.query('SELECT email FROM student WHERE email = $1', [req.user.email]);
-
+      
       if (result1.rows.length > 0) {
         tableName = 'alumni';
       } else if (result2.rows.length > 0) {
