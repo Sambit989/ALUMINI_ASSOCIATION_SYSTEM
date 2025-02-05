@@ -665,37 +665,57 @@ app.get('/changePassword', (req, res) => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+
 app.post('/changePassword', async (req, res) => {
   if (req.isAuthenticated()) {
     const { currentPassword, newPassword, confirmPassword } = req.body;
+    let tableName = '';
 
     try {
-      // Fetch the user from the database
-      const result = await db.query('SELECT password FROM alumni WHERE email = $1', [req.user.email]);
+      // Check if the user exists in 'alumni' or 'student' table
+      const result1 = await db.query('SELECT email FROM alumni WHERE email = $1', [req.user.email]);
+      const result2 = await db.query('SELECT email FROM student WHERE email = $1', [req.user.email]);
+
+      if (result1.rows.length > 0) {
+        tableName = 'alumni';
+      } else if (result2.rows.length > 0) {
+        tableName = 'student';
+      } else {
+        return res.status(404).send('User not found');
+      }
+
+      // Fetch the stored password
+      const result = await db.query(`SELECT password FROM ${tableName} WHERE email = $1`, [req.user.email]);
       const user = result.rows[0];
 
-      console.log('User found:', user);
-      console.log('Fetched password:', user?.password);
+      if (!user) {
+        return res.status(404).send('User not found');
+      }
 
-      // Check if the old password matches (plain text comparison)
+      console.log('User found:', user);
+      console.log('Fetched password:', user.password);
+
+      // Compare the old password (Plaintext comparison)
       if (currentPassword !== user.password) {
         return res.status(400).send('Incorrect old password');
       }
 
-      // Check if the new password matches the confirm password
+      // Check if new password matches confirm password
       if (newPassword !== confirmPassword) {
         return res.status(400).send('New password and confirm password do not match');
       }
 
-      // Update the password in the database
-      await db.query('UPDATE alumni SET password = $1 WHERE email = $2', [newPassword, req.user.email]);
+      // Update the password in the correct table
+      await db.query(`UPDATE ${tableName} SET password = $1 WHERE email = $2`, [newPassword, req.user.email]);
 
+      // Log out the user after password change
       req.logout(function (err) {
         if (err) {
           return next(err);
         }
         res.redirect("/");
       });
+
     } catch (error) {
       console.error('Error changing password:', error);
       res.status(500).send('Internal server error');
@@ -704,4 +724,3 @@ app.post('/changePassword', async (req, res) => {
     res.redirect('/');
   }
 });
-

@@ -14,7 +14,8 @@ CREATE TABLE alumni (
     about TEXT,
     gender TEXT,
     status TEXT default 'Not evaluated',
-    collegeid TEXT
+    collegeid TEXT,
+    value INT DEFAULT 1
 );
 
 CREATE TABLE event (
@@ -39,7 +40,7 @@ CREATE TABLE job_applications (
     applicant_email TEXT,
     answer TEXT,
     status TEXT default 'Not evaluated',
-    applicant_name text,
+    applicant_name text
 );
 
 CREATE TABLE job_post (
@@ -62,7 +63,8 @@ CREATE TABLE student (
     profile_pic TEXT,
     gender TEXT,
     batch TEXT,
-    email TEXT
+    email TEXT,
+    value INT DEFAULT 1
 );
 
 CREATE TABLE success_story (
